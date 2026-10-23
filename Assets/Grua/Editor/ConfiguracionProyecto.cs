@@ -68,6 +68,24 @@ public static class ConfiguracionProyecto
         }
     }
 
+    /// <summary>Build WebGL en Build/WebGL. Batchmode: -executeMethod ConfiguracionProyecto.BuildWebGL</summary>
+    [MenuItem("Tools/Grúa/Build WebGL (carpeta Build/WebGL)")]
+    public static void BuildWebGL()
+    {
+        Aplicar(false);
+        var opciones = new BuildPlayerOptions
+        {
+            scenes = new[] { RutaEscena },
+            locationPathName = "Build/WebGL",
+            target = BuildTarget.WebGL,
+            options = BuildOptions.None,
+        };
+        var reporte = BuildPipeline.BuildPlayer(opciones);
+        Debug.Log($"[Grúa] Build WebGL: {reporte.summary.result}, {reporte.summary.totalSize / (1024f * 1024f):0.0} MB, {reporte.summary.totalErrors} errores.");
+        if (Application.isBatchMode && reporte.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
+            EditorApplication.Exit(1);
+    }
+
     // En Unity 6 "Fixed Timestep" se serializa como fracción (m_Count / m_Rate); en versiones previas, como float.
     static bool SetPasoFijo(SerializedObject so, float valor)
     {
