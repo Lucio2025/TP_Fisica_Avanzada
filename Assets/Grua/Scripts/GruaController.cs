@@ -225,7 +225,13 @@ public class GruaController : MonoBehaviour
                 if (eje.slider != null) eje.slider.SetValueWithoutNotify(real);
             }
             eje.Drive = d;
-            if (eje.slider != null) eje.slider.interactable = !activo;
+            if (eje.slider != null)
+            {
+                eje.slider.interactable = !activo;
+                // Los sliders usan SpriteSwap (sin tinte de "deshabilitado"): se atenúan a mano.
+                foreach (var img in eje.slider.GetComponentsInChildren<Image>())
+                    img.color = activo ? new Color(1f, 1f, 1f, 0.35f) : Color.white;
+            }
         }
         if (!activo) PinzaCerrada = ejes[DedoIzq].comando > 0.5f * ejes[DedoIzq].maximo;
         if (toggleModoPrueba != null) toggleModoPrueba.SetIsOnWithoutNotify(activo);

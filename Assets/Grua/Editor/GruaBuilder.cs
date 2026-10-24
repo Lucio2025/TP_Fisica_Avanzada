@@ -299,10 +299,10 @@ public static class GruaBuilder
         Pieza("Mastil", goTorre.transform, PrimitiveType.Cube, new Vector3(0, 0.1f + (yP - 0.1f) / 2f, 0), new Vector3(0.6f, yP - 0.1f, 0.6f), "Amarillo", matAcero);
         for (int i = 1; i <= 4; i++) // riostras visuales del mástil
             Pieza("Riostra" + i, goTorre.transform, PrimitiveType.Cube, new Vector3(0, i * 1.0f, 0), new Vector3(0.66f, 0.06f, 0.66f), "MetalOscuro", null, false);
-        Pieza("Cabina", goTorre.transform, PrimitiveType.Cube, new Vector3(0.55f, yP - 0.55f, 0.45f), new Vector3(0.5f, 0.5f, 0.5f), "Vidrio", null, false);
+        Pieza("Cabina", goTorre.transform, PrimitiveType.Cube, new Vector3(0.04f, yP - 0.55f, 0.05f), new Vector3(0.6f, 0.5f, 0.62f), "Vidrio", null, false);
         Pieza("Pluma", goTorre.transform, PrimitiveType.Cube, new Vector3(LargoPluma / 2f, yP, 0), new Vector3(LargoPluma, 0.35f, 0.35f), "Amarillo", matAcero);
         Pieza("Contrapluma", goTorre.transform, PrimitiveType.Cube, new Vector3(-LargoContrapluma / 2f, yP, 0), new Vector3(LargoContrapluma, 0.3f, 0.5f), "Amarillo", matAcero);
-        Pieza("Contrapeso", goTorre.transform, PrimitiveType.Cube, new Vector3(-2.6f, yP - 0.55f, 0), new Vector3(0.8f, 0.9f, 0.8f), "Hormigon", matAcero);
+        Pieza("Contrapeso", goTorre.transform, PrimitiveType.Cube, new Vector3(-2.6f, yP - 0.55f, 0), new Vector3(0.85f, 0.9f, 0.8f), "Hormigon", matAcero);
         Pieza("Torreta", goTorre.transform, PrimitiveType.Cube, new Vector3(0, yP + 0.8f, 0), new Vector3(0.25f, 1.3f, 0.25f), "Amarillo", null, false);
         Tirante(goTorre.transform, new Vector3(0, yP + 1.4f, 0), new Vector3(LargoPluma * 0.85f, yP + 0.17f, 0));
         Tirante(goTorre.transform, new Vector3(0, yP + 1.4f, 0), new Vector3(-LargoContrapluma * 0.9f, yP + 0.15f, 0));
@@ -323,7 +323,7 @@ public static class GruaBuilder
         var goCarro = Vacio("Carro (prismatic X)", goTorre.transform, new Vector3(RadioCarroInicial, YCarro, 0));
         Pieza("Bastidor", goCarro.transform, PrimitiveType.Cube, new Vector3(0, 0.02f, 0), new Vector3(0.6f, 0.2f, 0.5f), "MetalOscuro", matAcero);
         for (int s = -1; s <= 1; s += 2)
-            Pieza("Rueda" + s, goCarro.transform, PrimitiveType.Cylinder, new Vector3(0, 0.1f, s * 0.22f), new Vector3(0.16f, 0.03f, 0.16f), "Rojo", null, false, new Vector3(90, 0, 0));
+            Pieza("Rueda" + s, goCarro.transform, PrimitiveType.Cylinder, new Vector3(0, 0.1f, s * 0.23f), new Vector3(0.16f, 0.0315f, 0.16f), "Rojo", null, false, new Vector3(90, 0, 0));
         r.carro = Cuerpo(goCarro, MasaCarro);
         r.carro.jointType = ArticulationJointType.PrismaticJoint;
         r.carro.anchorRotation = Quaternion.identity;
@@ -604,14 +604,13 @@ public static class GruaBuilder
             eje.etiqueta = Texto("Etiqueta " + eje.nombre, pc, eje.nombre, 13, new Vector2(12, yFila), new Vector2(380, 36));
             var goS = DefaultControls.CreateSlider(res);
             goS.name = "Slider " + eje.nombre;
-            Colocar(goS, pc, new Vector2(0, 1), new Vector2(14, yFila - 36), new Vector2(370, 16));
+            Colocar(goS, pc, new Vector2(0, 1), new Vector2(14, yFila - 34), new Vector2(370, 24));
             var s = goS.GetComponent<Slider>();
             s.navigation = new Navigation { mode = Navigation.Mode.None };
             s.minValue = eje.minimo;
             s.maxValue = eje.maximo;
             s.value = 0f;
-            var fill = goS.transform.Find("Fill Area/Fill")?.GetComponent<Image>();
-            if (fill != null) fill.color = ColorTitulo;
+            EstiloSliders.Aplicar(s);
             eje.slider = s;
             yFila -= 60f;
         }
